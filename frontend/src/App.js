@@ -1,11 +1,16 @@
 
-import './App.css';
+import { Provider } from 'react-redux';
+import CourseGenerator from './pages/CourseGenerator.js';
+import store from './utils/store.js';
+
 
 function App() {
   return (
-    <div className="">
-      <h1 className='text-red-500'>shree ganesh</h1>
+    <Provider store={store} >
+    <div className="App">
+       <CourseGenerator />
     </div>
+    </Provider>
   );
 }
 
