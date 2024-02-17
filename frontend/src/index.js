@@ -18,6 +18,8 @@ import ProfilePage from "./pages/ProfilePage.js";
 
 import CreateCoursePage from "./pages/CreateCoursePage.js";
 import ReadCoursePage from "./pages/ReadCoursePage.js";
+import EditCoursePage from "./pages/EditCoursePage.js";
+import AuditCoursePage from "./pages/AuditCoursePage.js";
 // import Cookies from "js-cookie";
 
 const token = false;
@@ -59,6 +61,14 @@ const appRouter = createBrowserRouter([
       {
         path : "/course-generator",
         element : <CourseGenerator />
+      },
+      {
+        path : "/edit-course/:courseId",
+        element : <EditCoursePage />
+      },
+      {
+        path : "/audit-courses",
+        element : <AuditCoursePage/>
       }
     ],
   },

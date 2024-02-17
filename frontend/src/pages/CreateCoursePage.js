@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../configs/config";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
 import { storage } from "../firebase";
+import ListTeachers from "../components/ListTeachers";
+
 import {
   list,
   listAll,
@@ -14,7 +16,11 @@ import {
 } from "firebase/storage";
 import { v1 as uuid } from "uuid";
 
+
+
 export default function CreateCoursePage() {
+
+
   const [error, setError] = useState(null);  
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
@@ -22,10 +28,29 @@ export default function CreateCoursePage() {
   const [authors, setAuthors] = useState([]);
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
   const [domain , setDomain] = useState(null);
+  const [teachers, setTeachers] = useState(null);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   const [upload, setUpload] = useState(null);
+
+  useEffect(()=>{
+        const getAllTeacher = async()=>{
+            try{
+            const response   = await fetch(`${BASE_URL}user/get-users/teacher`);
+            const data = await response.json();
+            console.log("teachers data : " ,data);
+            setTeachers(data.data);
+            }catch(err){
+                setError("unable to fetch reachers");
+                console.log("teacher fetching error : ",err)
+            }
+
+        } 
+        getAllTeacher();
+  },[])
 
   const uploadTumbnail = async (e) => {
     e.preventDefault();
@@ -50,6 +75,7 @@ export default function CreateCoursePage() {
   };
 
   const handleCreateCourse = async () => {
+    console.log("authors array, ",authors)
     try {
       const response = await fetch(`${BASE_URL}course/create-course`, {
         method: "POST",
@@ -61,7 +87,8 @@ export default function CreateCoursePage() {
           about,
           duration,
           thumbnailUrl,
-          domain
+          domain,
+          authors
         }),
       });
 
@@ -77,6 +104,7 @@ export default function CreateCoursePage() {
          setError("something went wrong. try Again!");
     }
   };
+
 
   return (
     <section>
@@ -202,6 +230,18 @@ export default function CreateCoursePage() {
                     <option>Mechenical Engineering</option>
                     <option>Mathematics</option>
                   </select>
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="name"
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Add Authors{" "}
+                </label>
+                <div className="mt-2">
+                  {teachers ? <ListTeachers teachers={teachers} authors={authors} setAuthors={setAuthors}/> :"" } 
                 </div>
               </div>
               

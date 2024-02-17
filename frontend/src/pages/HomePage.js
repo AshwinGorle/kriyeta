@@ -3,8 +3,8 @@ import CourseList from '../components/CourseList'
 import { useState, useEffect } from 'react';
 import { BASE_URL } from '../configs/config';
 const HomePage = () => {
-  const [courses, setCourses] = useState(null);
   const [error, setError] = useState(null);
+  const [courses, setCourses] = useState(null);
 
        useEffect(()=>{
         const fetchCourses = async()=>{

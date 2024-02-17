@@ -40,9 +40,9 @@ export function SubTopic({ subTopic, chapterIdx, topicIdx, subTopicIdx, formData
   };
 
   return (
-    <div className="p-4 border border-gray-300 rounded mb-4  ml-5 mr-0 pr-0"  ref={(el)=>{sectionRefs.current[subTopic.reference] = el}}>
+    <div className="p-4 border bg-gray-100  border-gray-400 rounded mb-4  ml-5 mr-0 pr-2"  ref={(el)=>{sectionRefs.current[subTopic.reference] = el}}>
       <input
-        className="text-xl font-bold border-b-2 border-gray-300 mb-2 outline-none"
+        className="flex  h-10 rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
         type="text"
         placeholder="SubTopic Name"
         value={subTopic.subTopicName}
@@ -51,7 +51,7 @@ export function SubTopic({ subTopic, chapterIdx, topicIdx, subTopicIdx, formData
 
       <div className="flex items-center space-x-2">
         <input
-          className="flex-grow border-b-2 border-gray-300 outline-none"
+          className="flex h-10 w-full mt-2 mr-3 border-b-2 rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
           type="text"
           placeholder="Generate AI based data..."
           value={subTopic.aiAskedDescription}
@@ -60,7 +60,7 @@ export function SubTopic({ subTopic, chapterIdx, topicIdx, subTopicIdx, formData
           }
         />
         <button
-          className="bg-green-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          className="mtext-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none text-white focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 "
           onClick={() => generateThroughAI([chapterIdx, topicIdx, subTopicIdx])}
         >
           Generate
@@ -68,7 +68,7 @@ export function SubTopic({ subTopic, chapterIdx, topicIdx, subTopicIdx, formData
       </div>
 
       <textarea
-        className="resize-none h-32 bg-gray-100 rounded-md p-2 mt-4 w-full"
+        className="resize-none h-32 bg-slate-50 rounded-md p-2 mt-4 w-full mb-3"
         type="text"
         placeholder="SubTopic Description"
         value={subTopic.descritpion}
@@ -94,7 +94,7 @@ export function SubTopic({ subTopic, chapterIdx, topicIdx, subTopicIdx, formData
       {/* Add Subsubtopic button */}
       <button
         onClick={() => addSubSubTopic(numberOfRef)}
-        className="bg-green-500 text-white px-4 py-2 rounded mt-4"
+        className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
       >
         Add SubSubTopic
       </button>

@@ -6,7 +6,7 @@ import { goToSection } from '../utils/goToSection';
 
 function SubSubTopic({ subSubTopic, subSubTopicIdx , sectionRefs}) {
   return (
-    <div className="border-l-2 border-slate-500 ml-2 pb-1 pl-1  font-bold text-slate-500">
+    <div className="border-l-2 border-slate-200 ml-2 pb-1 pl-1  font-bold text-zinc-300">
       <div onClick={()=>goToSection(subSubTopic.reference, sectionRefs)}> {subSubTopic.subSubTopicName ? subSubTopic.subSubTopicName : `Sub-Sub-Topic-${subSubTopicIdx+1}-Name` }</div>
     </div>
   );
@@ -15,7 +15,7 @@ function SubSubTopic({ subSubTopic, subSubTopicIdx , sectionRefs}) {
 
  function SubTopic({ subTopic, subTopicIdx , sectionRefs}) {
   return (
-    <div className="border-l-2 border-slate-500 ml-2 pb-2 pl-1 text-xs font-bold text-slate-600">
+    <div className="border-l-2  border-slate-200 ml-2 pb-2 pl-1 text-xs font-bold text-zinc-300 ">
       <div onClick={()=>goToSection(subTopic.reference, sectionRefs)}> {subTopic.subTopicName ? subTopic.subTopicName : `Sub-Topic-${subTopicIdx+1}-Name` }</div>
       {subTopic.subSubTopics.map((subSubTopic, subSubTopicIdx) => (
         <SubSubTopic
@@ -30,7 +30,7 @@ function SubSubTopic({ subSubTopic, subSubTopicIdx , sectionRefs}) {
 
  function Topic({ topic, topicIdx, sectionRefs}) {
   return (
-    <div className=" border-l-2 border-slate-500 ml-2 pb-3 pl-1 text-sm font-bold text-slate-700">
+    <div className=" border-l-2 border-slate-200 ml-2 pb-3 pl-1 text-sm font-bold text-zinc-200">
       <div onClick={()=>goToSection(topic.reference, sectionRefs)}>{
         topic.topicName ? topic.topicName : `Topic-${topicIdx+1}-Name`
       }</div>
@@ -47,7 +47,7 @@ function SubSubTopic({ subSubTopic, subSubTopicIdx , sectionRefs}) {
 
 function Chapter({ chapter, chapterIdx , sectionRefs}) {
   return (
-    <div className=" border-l-2 border-slate-500 ml-2 pb-3 pl-1  text-lg font-bold text-slate-900">
+    <div className=" border-l-2  border-slate-200 ml-2 pb-3 pl-1 cursor-pointer   text-lg font-bold text-white">
       <div onClick={()=>goToSection(chapter.reference,sectionRefs)}>{chapter.chapterName ? chapter.chapterName : `Chapter-${chapterIdx+1}-Name` }</div>
       {chapter.topics.map((topic, topicIdx) => (
         <Topic
@@ -64,9 +64,9 @@ function Chapter({ chapter, chapterIdx , sectionRefs}) {
 const SideIndex = ({formData, sectionRefs}) => {
   console.log("triggered")
   return (
-    <div className=' w-1/6 h-full border p-2 fixed bg-white'>
+    <div className=' w-1/6 h-full border p-2 fixed bg-blue-500 font-light font'>
        {
-        formData.chapters.map((chapter, chapterIdx) => <Chapter chapter={chapter} chapterIdx={chapterIdx} sectionRefs={sectionRefs}/>)
+        formData?.chapters?.map((chapter, chapterIdx) => <Chapter chapter={chapter} chapterIdx={chapterIdx} sectionRefs={sectionRefs}/>)
        }
     </div>
   )

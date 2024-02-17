@@ -2,10 +2,11 @@ import UserModel from "../models/User.js";
 import bcrypt from 'bcrypt';
 import Jwt  from "jsonwebtoken";
 import transporter from "../config/emailConfig.js";
+import CourseModel from "../models/Course.js";
 
 class UserController{
     static userRegistration = async(req, res)=>{
-        const {name, email, password, password_confirmation, role = "student", tc} = req.body;
+        const {name, email, password, password_confirmation, role = "student", tc=true, phone} = req.body;
         console.log("i reached here ", name, email, password, password_confirmation, tc, role )
         const user = await UserModel.findOne({email : email});
         if(user){
@@ -29,6 +30,7 @@ class UserController{
                     const token =  Jwt.sign({userId : savedUser._id, userEmail : savedUser.email}, process.env.JWT_SECRET_KEY, {expiresIn : '5d'});
                     res.status(201).send({status : "success", message : "User Created Successfully", token : token, data : savedUser })
                     }catch(err){
+                        console.log("----------",err);
                         res.send({status : "failed", message : "User not created", err : err})
                     }
                 }else{
@@ -134,6 +136,30 @@ class UserController{
            }  
         }else{
              res.send({status : "failed", message : "All fields are required"});
+        }
+    }
+
+    static getUsers = async (req, res)=>{
+         const {role} = req.params;
+         try{
+            const users = await UserModel.find({role : role}).select('-password');
+            res.send({status : "success", message: "teachers fetched successfully", data : users})
+         }catch(err){
+            res.send({status : "failed", message : "unable to fech teacher! "})
+        }
+    }
+    
+    static approveCourse = async (req, res)=>{
+        const {courseId} = req.params
+        console.log('courseid', courseId)
+        const body = req.body
+        console.log("body", body, courseId)
+        try{
+            const response = await CourseModel.findByIdAndUpdate(courseId, {staus : body.status});
+            res.send({status : "success", message : `cousre ${body.status}!` })
+           
+        }catch(err){
+            res.send({status : "failed", message : "couse not updated"})
         }
     }
 }

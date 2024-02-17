@@ -28,16 +28,16 @@ export function SubSubTopic({
 
   return (
     <div
-      className="p-5 border border-gray-300 rounded  ml-5 mr-0 mb-4 pr-0"
+      className="p-5 border bg-gray-50  border-gray-400 rounded  ml-5 mr-0 mb-4 pr-2"
       ref={(el) => {
         sectionRefs.current[subSubTopic.reference] = el;
       }}
       
     >
       <input
-        className="text-xl font-bold border-b-2 border-gray-300 mb-2 outline-none"
+        className="flex  h-10 rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
         type="text"
-        placeholder="SubSubTopic Name"
+        placeholder="Sub-SubTopic Name"
         value={subSubTopic.subSubTopicName}
         onChange={(e) =>
           handleSubSubTopicChange("subSubTopicName", e.target.value)
@@ -46,7 +46,7 @@ export function SubSubTopic({
 
       <div className="flex items-center space-x-2">
         <input
-          className="flex-grow border-b-2 border-gray-300 outline-none"
+          className="flex h-10 w-full mt-2 mr-3 border-b-2 rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
           type="text"
           placeholder="Generate AI based data..."
           value={subSubTopic.aiAskedDescription}
@@ -55,7 +55,7 @@ export function SubSubTopic({
           }
         />
         <button
-          className="bg-green-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          className="mtext-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none text-white focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 "
           onClick={() =>
             generateThroughAI([
               chapterIdx,
@@ -70,7 +70,7 @@ export function SubSubTopic({
       </div>
 
       <textarea
-        className="resize-none h-32 bg-gray-100 rounded-md  mt-4 w-full  "
+        className="resize-none h-32 bg-gray-100 rounded-md  mt-4 w-full p-2 "
         type="text"
         placeholder="SubSubTopic Description"
         value={subSubTopic.descritpion}

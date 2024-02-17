@@ -8,8 +8,8 @@ export default function NavBar() {
         <div className="">
         <Link to="/">
           <h1 className="font-serif font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-blue-700">Study</span>
-            <span className="text-blue-400">Portal</span>
+            <span className="text-blue-700">Edunet</span>
+            <span className="text-blue-400">ai</span>
           </h1>
           {/* <img src={logo} alt="" className=" w-40 object-cover" /> */}
         </Link>
@@ -64,6 +64,11 @@ export default function NavBar() {
             <Link to="/course-generator">
               <li className="hidden sm:inline text-slate-950 hover:text-blue-500 hover:underline">
                 generator
+              </li>
+            </Link>
+            <Link to="/audit-courses">
+              <li className="hidden sm:inline text-slate-950 hover:text-blue-500 hover:underline">
+                Audit Curse
               </li>
             </Link>
 

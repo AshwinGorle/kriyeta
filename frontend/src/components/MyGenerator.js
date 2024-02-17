@@ -59,7 +59,7 @@ const MyGenerator = ({ formData, setFormData, sectionRefs }) => {
  
   return (
     <div className="p-4 flex flex-col w-4/5 ml-auto mr-10">
-      {formData.chapters.map((chapter, chapterIdx) => {
+      {formData?.chapters?.map((chapter, chapterIdx) => {
        return ( <Chapter
           key={chapterIdx}
           chapter={chapter}
@@ -74,7 +74,7 @@ const MyGenerator = ({ formData, setFormData, sectionRefs }) => {
        })}
       <button
         onClick={() => addChapter(numberOfRef)}
-        className="bg-blue-500 text-white px-2 py-1 mb-2 rounded"
+        className="mtext-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none text-white focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
       >
         Add Chapter
       </button>
