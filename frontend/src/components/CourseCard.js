@@ -15,7 +15,7 @@ export default function CourseCard({ course }) {
   return (
     <div className="w-[400px] h-full md:w-[280px] sm:w-[260px] rounded-md border-2 hover:text-blue-500 cursor-pointer">
       <div key={_id} className="rounded-md border">
-        <div className=" border-2 border-red-300">
+        <div className=" border-2 ">
           <img
             src={thumbnailUrl}
             className="aspect-[16/9] w-full rounded-md md:aspect-auto md:h-[300px] lg:h-[200px]"
@@ -26,6 +26,7 @@ export default function CourseCard({ course }) {
             {name}
           </h1>
           <p className="mt-3 text-sm text-gray-600">{about.slice(0, 100)}</p>
+          {/* <p className="mt-3 text-sm text-gray-600">{author}</p> */}
           {/* <div className="mt-4">
             <span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
               #Sneakers

@@ -8,8 +8,8 @@ export default function NavBar() {
         <div className="">
         <Link to="/">
           <h1 className="font-serif font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-blue-700">Edunet</span>
-            <span className="text-blue-400">ai</span>
+            <span className="text-blue-700">EduNet</span>
+            <span className="text-blue-400">Ai</span>
           </h1>
           {/* <img src={logo} alt="" className=" w-40 object-cover" /> */}
         </Link>

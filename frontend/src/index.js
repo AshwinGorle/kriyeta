@@ -20,6 +20,7 @@ import CreateCoursePage from "./pages/CreateCoursePage.js";
 import ReadCoursePage from "./pages/ReadCoursePage.js";
 import EditCoursePage from "./pages/EditCoursePage.js";
 import AuditCoursePage from "./pages/AuditCoursePage.js";
+import Contact from "./pages/ContactPage.js";
 // import Cookies from "js-cookie";
 
 const token = false;
@@ -69,6 +70,14 @@ const appRouter = createBrowserRouter([
       {
         path : "/audit-courses",
         element : <AuditCoursePage/>
+      },
+      {
+        path : "/contact",
+        element : <Contact/>
+      },
+      {
+        path : "/about",
+        element : <Contact/>
       }
     ],
   },
