@@ -5,7 +5,8 @@ import transporter from "../config/emailConfig.js";
 
 class UserController{
     static userRegistration = async(req, res)=>{
-        const {name, email, password, password_confirmation, tc} = req.body;
+        const {name, email, password, password_confirmation, role = "student", tc} = req.body;
+        console.log("i reached here ", name, email, password, password_confirmation, tc, role )
         const user = await UserModel.findOne({email : email});
         if(user){
             res.send({status : "failed", message : "Email already exists"});
@@ -19,12 +20,14 @@ class UserController{
                         name,
                         email,
                         password : hashedPassowrd,
-                        tc : Boolean(tc)
+                        role,
+                        tc : Boolean(tc),
+                        phone
                     })
                     await doc.save();
                     const savedUser = await UserModel.findOne({email : email});
                     const token =  Jwt.sign({userId : savedUser._id, userEmail : savedUser.email}, process.env.JWT_SECRET_KEY, {expiresIn : '5d'});
-                    res.status(201).send({status : "success", message : "User Created Successfully", token : token })
+                    res.status(201).send({status : "success", message : "User Created Successfully", token : token, data : savedUser })
                     }catch(err){
                         res.send({status : "failed", message : "User not created", err : err})
                     }
@@ -38,6 +41,7 @@ class UserController{
     } 
 
     static userLogin = async (req, res)=>{
+        console.log("login called")
         const {password, email} = req.body
         if(password && email){
             try{
@@ -46,7 +50,7 @@ class UserController{
                   const isMatch = await bcrypt.compare(password, user.password);
                   if(isMatch && user.email === email){
                     const token  = Jwt.sign({userId : user._id, email : user.email}, process.env.JWT_SECRET_KEY);
-                    res.cookie('token', token).send({status : "success", token : token, message : "Loged in successfully"});
+                    res.cookie('token', token).send({status : "success", token : token, message : "Loged in successfully", data : user});
                   }else{
                     res.send({status : "failed", message : "Email or Passowrd is wrong"})
                   }

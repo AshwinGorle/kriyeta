@@ -4,14 +4,17 @@ class CourseController {
   static createCourse = async (req, res) => {
     const body = req.body;
     const authors = "id";
-    const { name, about, duration } = body;
-    if (!name || !about || !duration || !authors) {
+    const { name, about, duration, thumbnailUrl, domain } = body;
+    if (!name || !about || !duration || !authors ) {
       res.send({ status: "failed", message: "All fields are required" });
     }
     try {
-      const course = await CourseModel.create({ name, about, duration });
+      const course = await CourseModel.create({ name, about, duration, thumbnailUrl, domain });
+      console.log("course create essssss : ", course)
+
       res.send({ status: "success", data: course });
     } catch (error) {
+      console.log("course create errrr : ", error)
       res.send({ status: "failed", message: "Failed to create course" });
     }
   };
@@ -32,6 +35,16 @@ class CourseController {
       res.send({ status: "failed", message: "Failed to update course" });
     }
   };
+
+  static getAllCourses = async (req, res)=>{
+       try{
+        const courses = await CourseModel.find()
+        res.send({status : "success", data : courses})
+       }catch(err){
+        res.send({status : "failed", message : "Network error! Please try Again"})
+       }
+       
+  }
 }
 
 export default CourseController;

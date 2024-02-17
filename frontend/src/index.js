@@ -8,7 +8,20 @@ import LayoutPage from "./pages/LayoutPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 
+import store from "./utils/store.js";
+import { Provider } from "react-redux";
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CourseGenerator from "./pages/CourseGenerator";
+import RegisterPage from "./pages/RegisterPage.js";
+import ProfilePage from "./pages/ProfilePage.js";
+
+import CreateCoursePage from "./pages/CreateCoursePage.js";
+import ReadCoursePage from "./pages/ReadCoursePage.js";
+// import Cookies from "js-cookie";
+
+const token = false;
+// const token = Cookies.get("token");
 
 const appRouter = createBrowserRouter([
   {
@@ -17,21 +30,46 @@ const appRouter = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        path: "/",
+        element: <HomePage/>,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: "/login",
         element: <LoginPage />,
         errorElement: <ErrorPage />,
       },
       {
-        path : "/",
+        path: "/register",
         errorElement: <ErrorPage />,
-        element : <HomePage/>
+        element: <RegisterPage/>
+      },
+      {
+        path: "/profile",
+        element : <ProfilePage/>
+      },
+      {
+        path: "/create-course",
+        element : <CreateCoursePage/>
+      },
+      {
+        path:"/read-course/:courseId",
+        element : <ReadCoursePage/>
+      },
+      {
+        path : "/course-generator",
+        element : <CourseGenerator />
       }
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={appRouter} />);
+root.render(
+  <Provider store={store}>
+    <RouterProvider router={appRouter} />
+  </Provider>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

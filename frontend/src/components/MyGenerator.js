@@ -58,7 +58,7 @@ const MyGenerator = ({ formData, setFormData, sectionRefs }) => {
   };
  
   return (
-    <div className="p-4 flex flex-col w-4/5 ">
+    <div className="p-4 flex flex-col w-4/5 ml-auto mr-10">
       {formData.chapters.map((chapter, chapterIdx) => {
        return ( <Chapter
           key={chapterIdx}

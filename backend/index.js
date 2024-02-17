@@ -13,7 +13,9 @@ const PORT = process.env.PORT;
 const DATABASE_URL = process.env.DATABASE_URL
 
 connectDB(DATABASE_URL);
-app.use(cors());
+const corsOptions = { origin: "*", credentials: true };
+app.use(cors(corsOptions))
+// app.use(cors());
 app.use(express.urlencoded({extended : false}));
 app.use(express.json());
 app.use('/user',userRoutes);
