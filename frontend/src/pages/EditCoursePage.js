@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import { useState, useEffect } from 'react';
 import CourseGenerator from './CourseGenerator';
 import { BASE_URL } from '../configs/config';
+import AddKnowledgebase from './AddKnowledgebase';
 
 const EditCoursePage = () => {
     const [prevCourseData , setPrevCourseData] = useState(null);
@@ -28,6 +29,7 @@ const EditCoursePage = () => {
   return (
     <>
     { prevCourseData && <CourseGenerator prevCourseData={prevCourseData} /> }
+    <AddKnowledgebase courseId={courseId}/>
     </>
   )
 }

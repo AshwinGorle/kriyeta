@@ -12,8 +12,9 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const handleLogin = async () => {
+  const handleLogin = async (event) => {
     try {
+      event.preventDefault();
       const response = await fetch(`${BASE_URL}user/login`, {
         method: "POST",
         headers: {
@@ -57,8 +58,9 @@ function LoginPage() {
                 fill="black"
               />
             </svg> */}
+            <img src="https://firebasestorage.googleapis.com/v0/b/mykriyeta.appspot.com/o/knowledgebaseFiles%2F7639d1e0-cdcb-11ee-add7-ad44366ebdbf?alt=media&token=0ad89b6f-9034-4176-8008-5a5af83b3d76" className="w-32"/>
           </div>
-          <h2 className="text-center text-2xl font-bold leading-tight text-black">
+          <h2 className="text-center text-2xl font-bold leading-tight text-blue-500">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
@@ -66,7 +68,7 @@ function LoginPage() {
             <Link
               to="/register"
               title=""
-              className="font-semibold text-black transition-all duration-200 hover:underline"
+              className="font-semibold text-black transition-all duration-200 hover:underline underline"
             >
               Create a free account
             </Link>
@@ -126,8 +128,8 @@ function LoginPage() {
               <div>
                 <button
                   type="submit"
-                  onClick={() => handleLogin()}
-                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                  onClick={(e) => handleLogin(e)}
+                  className="inline-flex w-full items-center justify-center rounded-md bg-blue-500 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-blue-400"
                 >
                   Get started
                 </button>

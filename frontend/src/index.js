@@ -7,6 +7,8 @@ import ErrorPage from "./pages/ErrorPage";
 import LayoutPage from "./pages/LayoutPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
+import MyCoursePage from "./pages/MyCourse.js";
+import KnowledgebasesPage from "./pages/KnowledgebasesPage.js";
 
 import store from "./utils/store.js";
 import { Provider } from "react-redux";
@@ -21,6 +23,9 @@ import ReadCoursePage from "./pages/ReadCoursePage.js";
 import EditCoursePage from "./pages/EditCoursePage.js";
 import AuditCoursePage from "./pages/AuditCoursePage.js";
 import Contact from "./pages/ContactPage.js";
+import AddKnowledgebase from "./pages/AddKnowledgebase.js";
+import AboutUs from "./pages/AboutUsPage.js";
+import VerifyknowledgeBase from "./pages/VerifyknowledgeBase.js";
 // import Cookies from "js-cookie";
 
 const token = false;
@@ -34,8 +39,18 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage/>,
+        element: <HomePage />,
         errorElement: <ErrorPage />,
+      },
+      {
+        path: "/knowledgebases",
+        element: <KnowledgebasesPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path:"/verify-knowledgebase/:courseId",
+        element: <VerifyknowledgeBase/>,
+        errorElement: <ErrorPage/>
       },
       {
         path: "/login",
@@ -45,40 +60,48 @@ const appRouter = createBrowserRouter([
       {
         path: "/register",
         errorElement: <ErrorPage />,
-        element: <RegisterPage/>
+        element: <RegisterPage />,
       },
       {
         path: "/profile",
-        element : <ProfilePage/>
+        element: <ProfilePage />,
       },
       {
         path: "/create-course",
-        element : <CreateCoursePage/>
+        element: <CreateCoursePage />,
       },
       {
-        path:"/read-course/:courseId",
-        element : <ReadCoursePage/>
+        path: "/read-course/:courseId",
+        element: <ReadCoursePage />,
       },
       {
-        path : "/course-generator",
-        element : <CourseGenerator />
+        path: "/course-generator",
+        element: <CourseGenerator />,
       },
       {
-        path : "/edit-course/:courseId",
-        element : <EditCoursePage />
+        path: "/my-courses",
+        element: <MyCoursePage />,
       },
       {
-        path : "/audit-courses",
-        element : <AuditCoursePage/>
+        path: "/edit-course/:courseId",
+        element: <EditCoursePage />,
       },
       {
-        path : "/contact",
-        element : <Contact/>
+        path: "/audit-courses",
+        element: <AuditCoursePage />,
       },
       {
-        path : "/about",
-        element : <Contact/>
-      }
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/about",
+        element: <AboutUs />,
+      },
+      {
+        path: "/content",
+        element: <AddKnowledgebase />,
+      },
     ],
   },
 ]);

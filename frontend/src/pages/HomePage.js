@@ -25,7 +25,8 @@ const HomePage = () => {
 
   return (
     <div>
-        {courses && <CourseList courses={courses} />}
+      <h1 className="flex justify-center mt-5 text-3xl font-serif font-semibold">Our Courses</h1>
+        {courses && <CourseList myCourse={false} courses={courses} />}
     </div>
   )
 }

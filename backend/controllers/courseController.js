@@ -25,17 +25,19 @@ class CourseController {
   };
 
   static updateCourse = async (req, res) => {
-    const {courseId} = req.params;
+    const { courseId } = req.params;
     console.log("courseId in controller ", courseId);
     const data = req.body.data;
-    
-    console.log("-------------",data);
-    
-    if (!courseId ) {
+
+    console.log("-------------", data);
+
+    if (!courseId) {
       res.send({ status: "failed", message: "Course update fail" });
     }
     try {
-      const course = await CourseModel.findByIdAndUpdate(courseId, {content : data});
+      const course = await CourseModel.findByIdAndUpdate(courseId, {
+        content: data,
+      });
 
       res.send({ status: "success", data: course });
     } catch (error) {
@@ -46,6 +48,20 @@ class CourseController {
   static getAllCourses = async (req, res) => {
     try {
       const courses = await CourseModel.find();
+      res.send({ status: "success", data: courses });
+    } catch (err) {
+      res.send({
+        status: "failed",
+        message: "Network error! Please try Again",
+      });
+    }
+  };
+
+  static getMyCourses = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      console.log("userid", userId);
+      const courses = await CourseModel.find({ authors: { $in: [userId] } });
       res.send({ status: "success", data: courses });
     } catch (err) {
       res.send({
@@ -67,6 +83,42 @@ class CourseController {
       });
     } catch (err) {
       res.send({ status: "failed", message: "Course Not Found !" });
+    }
+  };
+
+  static addKnowlegebase = async (req, res) => {
+    const { courseId } = req.params;
+    const knowledge = req.body.knowledgeBase;
+
+    try {
+      const course = await CourseModel.findById(courseId);
+      const prevKnowledgeBase = course.knowledgeBase;
+      const newKnowledgeBase = [...prevKnowledgeBase, knowledge];
+      const response = await CourseModel.findByIdAndUpdate(courseId, {
+        knowledgeBase: newKnowledgeBase,
+      });
+      res.send({
+        status: "success",
+        message: "knowledge Base updated successfully!",
+      });
+    } catch (error) {
+      console.log("my error ", error);
+      res.send({ status: "failed", message: "not added!" });
+    }
+  };
+  static getKnowlegebase = async (req, res) => {
+    const { courseId } = req.params;
+
+    try {
+      const response = await CourseModel.findById(courseId);
+      res.send({
+        status: "success",
+        data: response,
+        message: "knowledge Base fetched successfully!",
+      });
+    } catch (error) {
+      console.log("my error ", error);
+      res.send({ status: "failed", message: "can not fetched!" });
     }
   };
 }

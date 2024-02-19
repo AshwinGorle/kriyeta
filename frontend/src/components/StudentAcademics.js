@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function StudentAcademics() {
+export default function Academics() {
   return (
     <div>
       <div className="p-3 px-12 h-full ">

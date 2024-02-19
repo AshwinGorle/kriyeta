@@ -36,13 +36,15 @@ const handleUpdateCourse = async (courseId)=>{
 
 }
   return (
-    <>
+    <div className='flex justify-center flex-col'>
     <div className='flex w-full'>
           <SideIndex formData={formData} sectionRefs={sectionRefs} />  
-          <MyGenerator formData={formData} setFormData={setFormData} sectionRefs={sectionRefs} />   
+          <MyGenerator formData={formData} setFormData={setFormData} sectionRefs={sectionRefs} /> 
+          
     </div>
-    <button  className=" absolute bg-red-300" onClick={()=>{handleUpdateCourse(prevCourseData._id)}}>Save course</button>
-    </>
+    <button  className=" m-auto bg-blue-300 px-4 py-2 border-2 border-gray-200 rounded-xl" onClick={()=>{handleUpdateCourse(prevCourseData._id)}}>Save course</button>  
+    
+    </div>
   )
 }
 

@@ -11,6 +11,7 @@ router.post('/login', UserController.userLogin);
 router.post('/send-password-reset-email', UserController.sendResetPasswordEmail);
 router.post('/reset-password/:userId/:token', UserController.resetUserPasswordWithLink)
 router.get('/get-users/:role', UserController.getUsers)
+router.post('/update-user', UserController.updateUser)
 //protected routes
 router.post('/changepassword', checkUserAuth ,UserController.resetUserPassword)
 

@@ -30,7 +30,7 @@ function SubSubTopic({ subSubTopic, subSubTopicIdx , sectionRefs}) {
 
  function Topic({ topic, topicIdx, sectionRefs}) {
   return (
-    <div className=" border-l-2 border-slate-200 ml-2 pb-3 pl-1 text-sm font-bold text-gray-700 ">
+    <div className=" border-l-2 border-slate-200 ml-2 pb-3 pl-1 text-sm font-bold text-zinc-200">
       <div onClick={()=>goToSection(topic.reference, sectionRefs)}>{
         topic.topicName ? topic.topicName : `Topic-${topicIdx+1}-Name`
       }</div>
@@ -47,7 +47,7 @@ function SubSubTopic({ subSubTopic, subSubTopicIdx , sectionRefs}) {
 
 function Chapter({ chapter, chapterIdx , sectionRefs}) {
   return (
-    <div className=" border-l-2  border-slate-200 ml-2 pb-3 pl-1 cursor-pointer  text-xl font-semibold text-white mb-2">
+    <div className=" border-l-2  border-slate-200 ml-2 pb-3 pl-1 cursor-pointer   text-lg font-bold text-white">
       <div onClick={()=>goToSection(chapter.reference,sectionRefs)}>{chapter.chapterName ? chapter.chapterName : `Chapter-${chapterIdx+1}-Name` }</div>
       {chapter.topics.map((topic, topicIdx) => (
         <Topic
@@ -61,10 +61,10 @@ function Chapter({ chapter, chapterIdx , sectionRefs}) {
 }
 
 
-const SideIndex = ({formData, sectionRefs}) => {
+const ShowSideIndex = ({formData, sectionRefs}) => {
   console.log("triggered")
   return (
-    <div className=' w-1/6 h-full border p-2 pb-96 sticky top-0 bg-blue-400 font-light font'>
+    <div className=' w-1/6 h-full border p-2 sticky top-0 bg-gray-400 font-light font pb-96'>
        {
         formData?.chapters?.map((chapter, chapterIdx) => <Chapter chapter={chapter} chapterIdx={chapterIdx} sectionRefs={sectionRefs}/>)
        }
@@ -72,4 +72,4 @@ const SideIndex = ({formData, sectionRefs}) => {
   )
 }
 
-export default SideIndex
+export default ShowSideIndex

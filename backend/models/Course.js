@@ -20,7 +20,6 @@ const courseSchema = mongoose.Schema({
   knowledgeBase: [
     {
       name: { type: String, require: true },
-      description: { type: String },
       link: { type: String, require: true },
     },
   ],

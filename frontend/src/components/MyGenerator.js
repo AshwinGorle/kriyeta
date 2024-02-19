@@ -11,8 +11,11 @@ const MyGenerator = ({ formData, setFormData, sectionRefs }) => {
   const numberOfRef = useSelector(store => store.refSlice.numberOfRef )
   console.log(numberOfRef)
 
-  function generateThroughAI(Location) {
+  ///////work herer ---------------
+
+  async function generateThroughAI(Location) {
     console.log("ai generation started...");
+
     const updatedChapter = [...formData.chapters];
     let result = updatedChapter;
 
@@ -20,9 +23,26 @@ const MyGenerator = ({ formData, setFormData, sectionRefs }) => {
     if (Location.length >= 2) result = result.topics[Location[1]];
     if (Location.length >= 3) result = result.subTopics[Location[2]];
     if (Location.length >= 4) result = result.subSubTopics[Location[3]];
-
+    
     const question = result.aiAskedDescription;
-    const Answer = "this is the currently generated ai response";
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer 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",
+      },
+      body : JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: question }],
+      }),
+    });
+
+    const data = await response.json();
+    const respondMessage = data.choices[0].message.content;
+
+
+    const Answer = respondMessage;
     console.log("Question : ", question);
 
     // Check if the generated answer is different from the current description
@@ -78,7 +98,7 @@ const MyGenerator = ({ formData, setFormData, sectionRefs }) => {
       >
         Add Chapter
       </button>
-      <pre className="mt-4">{JSON.stringify(formData, null, 2)}</pre>
+      {/* <pre className="mt-4">{JSON.stringify(formData, null, 2)}</pre> */}
     </div>
   );
 };
