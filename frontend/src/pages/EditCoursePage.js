@@ -27,10 +27,9 @@ const EditCoursePage = () => {
 
     
   return (
-    <>
-    { prevCourseData && <CourseGenerator prevCourseData={prevCourseData} /> }
-    <AddKnowledgebase courseId={courseId}/>
-    </>
+    <div className=''>
+    { prevCourseData && <CourseGenerator prevCourseData={prevCourseData} courseId={courseId} /> }
+    </div>
   )
 }
 

@@ -5,8 +5,9 @@ class CourseController {
     const body = req.body;
 
     const { name, about, duration, thumbnailUrl, domain, authors } = body;
+    console.log("this is aruthors", authors)
     if (!name || !about || !duration || !authors) {
-      res.send({ status: "failed", message: "All fields are required" });
+      return res.send({ status: "failed", message: "All fields are required" });
     }
     try {
       const course = await CourseModel.create({
@@ -18,9 +19,9 @@ class CourseController {
         authors,
       });
 
-      res.send({ status: "success", data: course });
+      return res.send({ status: "success", data: course });
     } catch (error) {
-      res.send({ status: "failed", message: "Failed to create course" });
+      return res.send({ status: "failed", message: "Failed to create course" });
     }
   };
 
@@ -46,6 +47,7 @@ class CourseController {
   };
 
   static getAllCourses = async (req, res) => {
+    console.log("reached to get allcourses")
     try {
       const courses = await CourseModel.find();
       res.send({ status: "success", data: courses });

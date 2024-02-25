@@ -20,6 +20,7 @@ export default function AddFile({courseId}) {
   const [knowledgeBase,setknowledgeBase]=useState([]);
   const [error, setError] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
+  
   const uplaodContent =(e)=>{
     e.preventDefault();
     const contentId=uuid();
@@ -102,7 +103,7 @@ export default function AddFile({courseId}) {
         </div>
       </div>
       <input
-        class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:border-gray-600 dark:placeholder-gray-400 p-2 w-96"
+        class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:border-gray-600 dark:placeholder-gray-400 p-2 w-96 mt-2"
         aria-describedby="file_input_help"
         id="file_input"
         type="file"
@@ -121,7 +122,7 @@ export default function AddFile({courseId}) {
       </button>
 
       <button
-        className="bg-blue-400 mx-2 hover:bg-blue-700 text-white font-bold mt-2 py-2 px-4 rounded"
+        className="bg-blue-400 mx-2 hover:bg-blue-700 text-white font-bold mt-2 py-2 px-4 rounded bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none"
         type="button"
         onClick={() => {
           handleKonwlegeSubmit();

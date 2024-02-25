@@ -15,20 +15,12 @@ class UserController {
       tc = true,
       phone,
     } = req.body;
-    console.log(
-      "i reached here ",
-      name,
-      email,
-      password,
-      password_confirmation,
-      tc,
-      role
-    );
+   
     const user = await UserModel.findOne({ email: email });
     if (user) {
       res.send({ status: "failed", message: "Email already exists" });
     } else {
-      if (name && email && password && password_confirmation && tc) {
+      if (name && email && password && password_confirmation && tc && role) {
         if (password === password_confirmation) {
           try {
             const salt = await bcrypt.genSalt(10);
@@ -40,6 +32,7 @@ class UserController {
               role,
               tc: Boolean(tc),
               phone,
+
             });
             await doc.save();
             const savedUser = await UserModel.findOne({ email: email });
@@ -218,13 +211,14 @@ class UserController {
   };
 
   static approveCourse = async (req, res) => {
+    console.log("entered here")
     const { courseId } = req.params;
     console.log("courseid", courseId);
     const body = req.body;
     console.log("body", body, courseId);
     try {
       const response = await CourseModel.findByIdAndUpdate(courseId, {
-        staus: body.status,
+        status: body.status,
       });
       res.send({ status: "success", message: `cousre ${body.status}!` });
     } catch (err) {
@@ -232,10 +226,30 @@ class UserController {
     }
   };
 
-  static getUser = async (req, res) => {};
+  static getUser = async (token)=>{
+    try{ 
+    const {userId, email} =  Jwt.verify(token, process.env.JWT_SECRET_KEY);
+    if(!userId) return null;
+
+    const user = await UserModel.findById(userId).select('-password')
+    if(!user) return null;
+    return user;
+    
+    }catch (err) {
+      console.log("token err : ", err);
+      return null;
+    }
+}
+
+ static getUserByToken = (req, res)=>{
+   let user = null;
+   if(req.user !== null) user = req.user;
+   console.log("geting initial user ", user)
+     res.send({staus : "success", data : user})
+         
+ }
 
   static updateUser = async (req, res) => {
-    console.log('inside', req.body)
     const {
       id,
       name,
@@ -252,10 +266,10 @@ class UserController {
       currentYear,
       specialization,
       field,
+      avatar
     } = req.body;
-    console.log("id", req.body.id)
     try {
-      const user = await UserModel.findByIdAndUpdate(id, {
+      const user = await UserModel.findByIdAndUpdate(req.user._id, {
         name,
         email,
         phone,
@@ -270,7 +284,8 @@ class UserController {
         currentYear,
         specialization,
         field,
-      });
+        avatar
+      }).select('-password');
 
       res.send({
         status: "success",
@@ -281,6 +296,7 @@ class UserController {
       res.send({ status: "failed", message: "user not updated" });
     }
   };
+
 }
 
 export default UserController;

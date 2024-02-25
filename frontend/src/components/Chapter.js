@@ -42,7 +42,7 @@ export function Chapter({
 
   return (
     <div
-      className="p-4 border border-gray-400 bg-gray-50 rounded mb-4 ml-5 mr-0  "
+      className="p-4 border border-gray-400 bg-gray-50 rounded mb-4  mr-0  "
       ref={(el) => {
         sectionRefs.current[chapter.reference] = el;
       }}

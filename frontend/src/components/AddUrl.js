@@ -81,7 +81,7 @@ export default function AddLink({ courseId }) {
       <input
         type="url"
         id="website"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 w-96"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 w-96 mt-2"
         placeholder="http://xyz.com"
         required
         value = {inputLink}
@@ -90,7 +90,7 @@ export default function AddLink({ courseId }) {
       
 
       <button
-        className="bg-blue-400  hover:bg-blue-700 text-white font-bold mt-2 py-2 px-4 rounded"
+        className="bg-blue-400 mx-2 hover:bg-blue-700 text-white font-bold mt-2 py-2 px-4 rounded bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none"
         type="button"
         onClick={() => {
           handleKonwlegeSubmit();
@@ -102,3 +102,6 @@ export default function AddLink({ courseId }) {
     </div>
   );
 }
+
+
+

@@ -26,15 +26,13 @@ function LoginPage() {
         }),
       });
       const data = await response.json();
-      console.log("-----user : ", data);
       if (data.status == "failed") {
         setError(response.message);
       } else {
         dispatch(addUser(data.data));
         localStorage.setItem("userData", JSON.stringify(data.data));
-        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("token", data.token);
         console.log("login successful");
-        document.cookie = `token=${data.token}`;
         navigate("/");
       }
     } catch (err) {

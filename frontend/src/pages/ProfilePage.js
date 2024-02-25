@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 // import { Icon } from "react-icons-kit";
 import { BASE_URL } from "../configs/config.js";
+import { v1 as uuid } from "uuid";
+import { storage } from "../firebase";
+import {
+  list,
+  listAll,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
@@ -23,9 +32,13 @@ export default function ProfilePage() {
   const [specialization, setSpecialization] = useState(
     user ? user.specialization : ""
   );
+  const [avatarUrl, setAvatarUrl] = useState( user?.avatar ? user.avatar : "");
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("userData");
+    const storedUser = localStorage.getItem(
+      'userData'
+    );
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -47,10 +60,12 @@ export default function ProfilePage() {
       setField(user.field);
       setOrganizationName(user.organizationName);
       setSpecialization(user.specialization);
+      setAvatarUrl(user.avatar);
     }
   }, [user]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (role) {
       const data = {
         id: user._id,
@@ -68,21 +83,68 @@ export default function ProfilePage() {
         field,
         education,
         specialization,
+        avatar : avatarUrl
       };
       const response = await fetch(`${BASE_URL}user/update-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(
-          data,
-        ),
+        body: JSON.stringify(data),
       });
       const updatedData = await response.json();
-      const stringFied = JSON.stringify(updatedData.data)
+      const stringFied = JSON.stringify(updatedData.data);
       if (updatedData.status === "success") {
         console.log("updatedData", updatedData.data);
-        localStorage.setItem("userData", stringFied)
+        localStorage.setItem("userData", stringFied);
+      }
+    }
+  };
+
+  const uploadProfilePic = async (e) => {
+    e.preventDefault()
+    console.log("upload clicked");
+    const profileId = uuid();
+    if (!avatar) return;
+    const contentRef = ref(storage, `profileImg/${profileId}`);
+    uploadBytes(contentRef, avatar).then((data) => {
+      console.log("file uploaded");
+      const contentlistRef = ref(storage, "profileImg/");
+      listAll(contentlistRef).then((response) => {
+        const item = response.items.filter((item) => {
+          return item.name == profileId;
+        });
+        getDownloadURL(item[0]).then((url) => {
+          console.log("download url", url);
+          setAvatarUrl(url);
+          submitProfilePic(avatarUrl);
+          const avatar = avatarUrl
+      
+        });
+      });
+    });
+  };
+
+  const submitProfilePic = async (url) => {
+    if (user) {
+      try {
+        console.log("tyring to upload")
+        const response = await fetch(`${BASE_URL}user/update-user`, {
+          method: "POST",
+          headers: {
+            "Content-type": "Application/json",
+          },
+          body: JSON.stringify({
+            id: user._id,
+            avatar: avatarUrl,
+          }),
+        });
+        const data = await response.json();
+        console.log("success profile upload :", data);
+       
+        
+      } catch (err) {
+        console.log("profile upload err");
       }
     }
   };
@@ -94,22 +156,34 @@ export default function ProfilePage() {
           <form className="flex flex-col gap-4 mr-4">
             <div className="flex flex-col gap-4 justify-center items-center">
               <img
-                src="https://cdn.vectorstock.com/i/preview-1x/17/61/male-avatar-profile-picture-vector-10211761.jpg"
+                src={
+                  avatarUrl
+                    ? avatarUrl
+                    : "https://www.366icons.com/media/01/profile-avatar-account-icon-16699.png"
+                }
                 alt="profile"
                 className="rounded-full h-44 w-44 object-cover cursor-pointer self-center mt-2"
               />
+              
+              <input id="file-input" type="file" className="" onChange={(e)=>setAvatar(e.target.files[0])} />
               <div>
-                {!user?.profile && (
-                  <button className="mtext-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none text-white focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
-                    Upload
+                {!user?.avatar && (
+                  <button
+                    type="file"
+                    className="mtext-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none text-white focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                    onClick={(e) => uploadProfilePic(e)}
+                  >
+                    upload
                   </button>
                 )}
-                {user?.profile && (
-                  <button className="mtext-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none text-white focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                {user?.avatar && (
+                  <button className="mtext-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none text-white focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                  onClick={(e)=>uploadProfilePic(e)}>
                     Change
+                    
                   </button>
                 )}
-                {user?.profile && (
+                {user?.avatar && (
                   <button className="mtext-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none text-white focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
                     Remove
                   </button>
@@ -373,7 +447,7 @@ export default function ProfilePage() {
                         className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                         type="text"
                         placeholder="Enter your organization name"
-                        id="name"
+                        
                         value={organizationName}
                         onChange={(e) => setOrganizationName(e.target.value)}
                       ></input>
@@ -413,12 +487,13 @@ export default function ProfilePage() {
                     </label>
                     <div className="mt-2">
                       <input
+                      key={500000}
                         className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                         type="text"
                         onChange={(e) => setField(e.target.value)}
                         value={field}
                         placeholder="Your field (e.g, CSE, PCM .etc)"
-                        id="field"
+                        id="5001"
                       ></input>
                     </div>
                   </div>
@@ -438,7 +513,7 @@ export default function ProfilePage() {
                           onChange={(e) => setSpecialization(e.target.value)}
                           value={specialization}
                           placeholder="Your field (e.g, CSE, PCM .etc)"
-                          id="field"
+                          id="5000"
                         ></input>
                       </div>
                     </div>
@@ -473,7 +548,7 @@ export default function ProfilePage() {
         </div>
       </div>
       <button
-        onClick={() => handleSubmit()}
+        onClick={(e) => handleSubmit(e)}
         className="bg-sky-600 w-full  text-white font-medium rounded-lg p-3 uppercase hover:opacity-90 disabled:opacity-80"
       >
         update

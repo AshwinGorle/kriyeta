@@ -61,13 +61,20 @@ function Chapter({ chapter, chapterIdx , sectionRefs}) {
 }
 
 
-const SideIndex = ({formData, sectionRefs}) => {
+const SideIndex = ({formData, sectionRefs, openSideIndex, setOpenSideIndex}) => {
+   
   console.log("triggered")
   return (
-    <div className=' w-1/6 h-full border p-2 pb-96 sticky top-0 bg-blue-400 font-light font'>
+    <div className='h-full w-fit border p-2 pb-96 sticky top-0 bg-gradient-to-r from-cyan-500 to-blue-500 . font-light font'>
+       <div className='flex '>
+           <h1 className=' text-lg font-bold text-white'>Course Index</h1>
+           <button onClick={(e)=>setOpenSideIndex(false)}>Close</button>
+       </div>
+       <div>
        {
         formData?.chapters?.map((chapter, chapterIdx) => <Chapter chapter={chapter} chapterIdx={chapterIdx} sectionRefs={sectionRefs}/>)
        }
+       </div>
     </div>
   )
 }

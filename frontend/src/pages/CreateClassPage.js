@@ -17,15 +17,18 @@ import {
 } from "firebase/storage";
 import { v1 as uuid } from "uuid";
 
-export default function CreateCoursePage() {
+export default function CreateClassPage() {
   const [error, setError] = useState(null);
   const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
-  const [duration, setDuration] = useState("");
   const [authors, setAuthors] = useState([]);
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
-  const [domain, setDomain] = useState(null);
   const [teachers, setTeachers] = useState(null);
+  
+  const [description, setDescription] = useState("");
+  const [subject, setSubject] = useState(null);
+  
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,78 +36,78 @@ export default function CreateCoursePage() {
   const [upload, setUpload] = useState(null);
 
   useEffect(() => {
-    // const getAllTeacher = async () => {
-    //   try {
-    //     const response = await fetch(`${BASE_URL}user/get-users/teacher`, {
-    //       headers : {
-    //         'authorization' : `Bearer ${localStorage.getItem('token')}`
-    //       }
-    //     });
-    //     const data = await response.json();
-    //     console.log("teachers data : ", data);
-    //     setTeachers(data.data);
-    //   } catch (err) {
-    //     setError("unable to fetch reachers");
-    //   }
-    // };
-    // getAllTeacher();
     const getAllTeacher = async () => {
       const allTeachers = await getAllUserByRole("teacher");
-      if(allTeachers){setTeachers(allTeachers)}else{setError("could not fetch techers")}
+      if (allTeachers) {
+        setTeachers(allTeachers);
+      } else {
+        setError("could not fetch techers");
+      }
     };
+
+    const getAllStudent = async () => {
+      const allStudents = await getAllUserByRole("student");
+      if (allStudents) {
+        setStudents(allStudents);
+      } else {
+        setError("could not fetch Students ");
+      }
+    };
+
     getAllTeacher();
+    getAllStudent();
   }, []);
 
   const uploadTumbnail = async (e) => {
     e.preventDefault();
-    const ThumbnailId = uuid();
-    console.log("upload clicked");
-    if (upload == null) return;
-    const thumbnailRef = ref(storage, `thumbnails/${ThumbnailId}`);
-    uploadBytes(thumbnailRef, upload).then((data) => {
-      console.log("image uploaded ");
-      const thumbnailListRef = ref(storage, "thumbnails/");
-      listAll(thumbnailListRef).then((response) => {
-        const item = response.items.filter((item) => {
-          return item.name == ThumbnailId;
-        });
-        getDownloadURL(item[0]).then((url) => {
-          console.log("download url ", url);
-          setThumbnailUrl(url);
+    if (upload) {
+      const ThumbnailId = uuid();
+      if (upload == null) return;
+      const thumbnailRef = ref(storage, `thumbnails/${ThumbnailId}`);
+      uploadBytes(thumbnailRef, upload).then((data) => {
+        console.log("class thumbnail uploaded ");
+        const thumbnailListRef = ref(storage, "thumbnails/");
+        listAll(thumbnailListRef).then((response) => {
+          const item = response.items.filter((item) => {
+            return item.name == ThumbnailId;
+          });
+          getDownloadURL(item[0]).then((url) => {
+            console.log("class thumbnail download url ", url);
+            setThumbnailUrl(url);
+          });
         });
       });
-    });
+    }
   };
 
-  const handleCreateCourse = async () => {
-    console.log("authors array, ", authors);
+  const handleCreateClass = async () => {
     try {
-      const response = await fetch(`${BASE_URL}course/create-course`, {
+      const response = await fetch(`${BASE_URL}class/create-class`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          "authorization" : `Bearer ${localStorage.getItem('token')}`
+          authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           name,
-          about,
-          duration,
+          description,
           thumbnailUrl,
-          domain,
+          subject,
           authors,
+          students : selectedStudent
         }),
       });
 
       const data = await response.json();
-      console.log("-----course data : ", data);
+      console.log("class created class data : ", data);
+
       if (data.status === "failed") {
         setError(data.message);
       } else {
-        console.log(data);
-        navigate("/");
+        navigate(`/class/${data.data._id}`);
       }
     } catch (err) {
-      setError("something went wrong. try Again!");
+      setError("something went wrong while creating class . try Again!");
     }
   };
 
@@ -119,7 +122,7 @@ export default function CreateCoursePage() {
         </div>
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <h2 className="text-center text-3xl font-bold leading-tight text-blue-500 ">
-            Create Course
+            Create Class
           </h2>
 
           <form className="mt-8">
@@ -130,7 +133,7 @@ export default function CreateCoursePage() {
                   className="text-base font-medium text-gray-900"
                 >
                   {" "}
-                  Course Name{" "}
+                  Class Name{" "}
                 </label>
                 <div className="mt-2">
                   <input
@@ -157,39 +160,19 @@ export default function CreateCoursePage() {
                     type="email"
                     placeholder="write about course goals and objectives"
                     id="email"
-                    value={about}
-                    onChange={(e) => setAbout(e.target.value)}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                   ></textarea>
                 </div>
               </div>
-              <div>
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="password"
-                    className="text-base font-medium text-gray-900"
-                  >
-                    {" "}
-                    Duration{" "}
-                  </label>
-                </div>
-                <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="text"
-                    placeholder="Set Duration"
-                    id="password"
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                  ></input>
-                </div>
-              </div>
+
               <div className="">
                 <div className="flex flex-row justify-between">
                   <label
                     class="text-base font-medium text-gray-900 "
-                    htmlForfor="file_input"
+                    htmlFor="file_input"
                   >
-                    Upload file
+                    Upload Thumbnail
                   </label>
                   <button
                     className="border-2 py-1 px-2 bg-gray-300 rounded mb-1 "
@@ -219,12 +202,12 @@ export default function CreateCoursePage() {
                   className="text-base font-medium text-gray-900"
                 >
                   {" "}
-                  Course Domain{" "}
+                  Course Subject{" "}
                 </label>
                 <div className="mt-2">
                   <select
-                    value={domain}
-                    onChange={(e) => setDomain(e.target.value)}
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
                     id="category"
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     required
@@ -260,17 +243,37 @@ export default function CreateCoursePage() {
                   )}
                 </div>
               </div>
+              <div>
+                <label
+                  htmlFor="name"
+                  className="text-base font-medium text-gray-900"
+                >
+                  {" "}
+                  Add Students{" "}
+                </label>
+                <div className="mt-2">
+                  {students ? (
+                    <ListTeachers
+                      teachers={students}
+                      authors={selectedStudent}
+                      setAuthors={setSelectedStudent}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
 
               <div>
                 {error && <div className="text-s text-red-500"> {error} </div>}
                 <button
                   type="button"
                   onClick={() => {
-                    handleCreateCourse();
+                    handleCreateClass();
                   }}
                   className="inline-flex w-full items-center justify-center rounded-md bg-blue-500 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-blue-400"
                 >
-                  Create Course <ArrowRight className="ml-2" size={16} />
+                  Create Class <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
             </div>

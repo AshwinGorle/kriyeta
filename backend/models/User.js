@@ -16,6 +16,7 @@ const userSchema = mongoose.Schema({
     specialization : {type : String},
     field: {type : String},
     education: {type : String},
+    avatar: {type : String }
 
 })
 

@@ -43,7 +43,7 @@ export default function RegisterPage() {
       } else {
         dispatch(addUser(data.data));
         localStorage.setItem("userData", JSON.stringify(data.data));
-        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("token",data.token);
         console.log("register successful");
         navigate("/");
       }

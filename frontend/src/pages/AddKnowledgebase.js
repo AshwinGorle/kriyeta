@@ -11,7 +11,7 @@ export default function AddKnowledgebase({courseId}) {
   
 
   return (
-    <div className="items-center">
+    <div className="items-center bg-white p-5 rounded-lg mt-5">
       <h1 className="text-3xl font-semibold text-center my-7">
         Add Knowledge base
       </h1>
@@ -49,9 +49,7 @@ export default function AddKnowledgebase({courseId}) {
           ))}
         </form>
       </div>
-      {/* <div className="flex justify-center">
-      <AiButton/>
-      </div> */}
+      
     </div>
   );
 }

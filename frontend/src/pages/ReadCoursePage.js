@@ -18,7 +18,11 @@ const ReadCoursePage = () => {
         const getCourse = async ()=>{
             const courseId = params.courseId;
             try{
-            const response = await fetch(`${BASE_URL}course/get-course/${courseId}`)
+            const response = await fetch(`${BASE_URL}course/get-course/${courseId}`,{
+              headers : {
+                "authorization" : `Bearer ${localStorage.getItem('token')}`
+              }
+            })
             const data = await response.json();
             setCourse(data.data);
             console.log("fetched course : ", course);
@@ -30,7 +34,7 @@ const ReadCoursePage = () => {
         }
 
          getCourse();
-   },)
+   },[])
 
    const Mycourse  = {
     chapters: [
@@ -118,9 +122,9 @@ const ReadCoursePage = () => {
 
   return (
     <div className='flex'>
-      {console.log("----------------------------------",course.content)}
-      <ShowSideIndex formData={course} sectionRefs={sectionRefs}/>
-      <ShowCourse formData = {course} sectionRefs={sectionRefs} />
+      {console.log("----------------------------------")}
+    {course &&  <ShowSideIndex formData={course.content} sectionRefs={sectionRefs}/>}
+     {course && <ShowCourse formData = {course.content} sectionRefs={sectionRefs} />}
     </div>
   )
 }
