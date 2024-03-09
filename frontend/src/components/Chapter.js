@@ -2,7 +2,7 @@ import React from "react";
 import { Topic } from "./Topic";
 import { goToSection } from "../utils/goToSection";
 import { useDispatch, useSelector } from "react-redux";
-import { addReference } from "../utils/refSlice";
+import { addReference, removeReference } from "../utils/refSlice";
 import { UseDispatch } from "react-redux";
 export function Chapter({
   chapter,
@@ -11,10 +11,21 @@ export function Chapter({
   setFormData,
   generateThroughAI,
   sectionRefs,
+  
 }) {
   const dispatch = useDispatch();
   const numberOfRef = useSelector((store) => store.refSlice.numberOfRef);
-
+  
+  const removeChapter = ()=>{
+    const updatedChapter = [...formData.chapters];
+ 
+    updatedChapter.splice(chapterIdx, 1);
+   
+    setFormData({
+      ...formData,
+      chapters: updatedChapter,
+    });
+  }
   const addTopic = (refIdx) => {
     const updatedChapter = [...formData.chapters];
     updatedChapter[chapterIdx].topics.push({
@@ -102,6 +113,12 @@ export function Chapter({
         className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 mt-4"
       >
         Add Topic
+      </button>
+      <button
+        onClick={() => removeChapter()}
+        className="text-white bg-gradient-to-r from-orange-500 to-red-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 mt-4"
+      >
+        Remove Chapter
       </button>
     </div>
   );

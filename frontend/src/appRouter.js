@@ -22,6 +22,7 @@ import AddKnowledgebase from "./pages/AddKnowledgebase.js";
 import AboutUs from "./pages/AboutUsPage.js";
 import VerifyknowledgeBase from "./pages/VerifyknowledgeBase.js";
 import CreateClassPage from "./pages/CreateClassPage.js";
+import CourseEditorPage from "./courseEditor/CourseEditorPage.js";
 
 
  const appRouter = createBrowserRouter([
@@ -98,6 +99,10 @@ import CreateClassPage from "./pages/CreateClassPage.js";
       {
         path : "/class/create-class",
         element : <CreateClassPage/>
+      },
+      {
+        path : "/course/editor",
+        element : <CourseEditorPage/>
       }
     ],
   },

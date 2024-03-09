@@ -9,10 +9,6 @@ import { Button } from "@mui/material";
 const CourseGenerator = ({ prevCourseData }) => {
   const [openSideIndex, setOpenSideIndex] = useState(true);
 
-  console.log(
-    "this is the data from server prev course data : ",
-    prevCourseData
-  );
   const sectionRefs = useRef([]);
   // const [formData, setFormData] = useState(prevCourseData.content ? prevCourseData.content : {
   //     chapters : []

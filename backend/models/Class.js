@@ -1,12 +1,11 @@
 import mongoose, { Schema } from "mongoose";
-import NoticeModel from "./Notice";
 const classSchema = mongoose.Schema({
   name: { type: String },
   teacher: { type: Schema.Types.ObjectId },
   studentEnrolled: [
     {
       type: Schema.Types.ObjectId, // Specifies that it's an array of ObjectIds
-      ref: "user", // Specifies the referenced model (assuming you have a 'Student' model)
+      ref: "User", // Specifies the referenced model (assuming you have a 'Student' model)
     },
   ],
   authors: [
@@ -36,11 +35,11 @@ const classSchema = mongoose.Schema({
   createdAt : {type : Date}, 
   updatedAt : {type : Date}, 
   description : {type : String},
-  notices: [{ type: mongoose.Types.ObjectId, ref: "notice" }] 
+  notices: [{ type: mongoose.Types.ObjectId, ref: "Notice" }] 
 
 
 });
 
-const ClassModel = mongoose.model('class', classSchema);
+const ClassModel = mongoose.model('Class', classSchema);
 export default ClassModel;
 

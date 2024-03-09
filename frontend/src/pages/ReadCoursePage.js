@@ -25,7 +25,7 @@ const ReadCoursePage = () => {
             })
             const data = await response.json();
             setCourse(data.data);
-            console.log("fetched course : ", course);
+            console.log("fetched course : ", data.data);
             }catch(err){
               setError("Sorry ! could not fetch course");
               console.log("course feching error : ",err)

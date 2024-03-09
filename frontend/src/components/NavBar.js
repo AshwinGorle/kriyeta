@@ -127,7 +127,7 @@ export default function NavBar() {
                     </div>
                   </Link>
 
-                  {restrictTo(["teacher", "admin"]) && (
+                  {restrictTo(user,["teacher", "admin"]) && (
                     <Link to="/my-courses">
                       <div className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                         My Courses
@@ -144,6 +144,11 @@ export default function NavBar() {
                   <Link to="/contact">
                     <div className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                       Contact Us
+                    </div>
+                  </Link>
+                  <Link to="/course/editor">
+                    <div className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                      Editor
                     </div>
                   </Link>
                 </div>

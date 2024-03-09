@@ -29,7 +29,7 @@ export default function CourseCard({ course, myCourse, KnowledgeBasesPage }) {
   };
 
   const handlEditCourse = (courseId) => {
-    if (!user) {
+    if (!localStorage.getItem('token')) {
       navigate("/login");
     } else {
       navigate(`/edit-course/${courseId}`);

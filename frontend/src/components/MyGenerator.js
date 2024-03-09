@@ -16,7 +16,6 @@ const MyGenerator = ({
 }) => {
   const dispatch = useDispatch();
   const numberOfRef = useSelector((store) => store.refSlice.numberOfRef);
-  console.log(numberOfRef);
 
   ///////work herer ---------------
 
@@ -116,7 +115,7 @@ const MyGenerator = ({
             Save course
           </button>
         </div>
-        {/* <pre className="mt-4">{JSON.stringify(formData, null, 2)}</pre> */}
+        <pre className="mt-4">{JSON.stringify(formData, null, 2)}</pre>
       </div>
     </div>
   );

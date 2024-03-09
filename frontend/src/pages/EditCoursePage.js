@@ -13,7 +13,11 @@ const EditCoursePage = () => {
     useEffect(()=>{
          const getPrevCourseData = async()=>{
             try{
-            const response = await fetch(`${BASE_URL}course/get-course/${courseId}`);
+            const response = await fetch(`${BASE_URL}course/get-course/${courseId}`, {
+              headers  : {
+                'authorization' : `Bearer ${localStorage.getItem('token')}`
+              }
+            });
             const data = await response.json();
             console.log("-----------------------------", data);
             setPrevCourseData(data.data);

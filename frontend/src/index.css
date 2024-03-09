@@ -92,3 +92,8 @@
   .name_profession p{
      color:grey;
   }
+
+  .mygradient{
+    background: rgb(101,176,182);
+background: linear-gradient(90deg, rgba(101,176,182,1) 0%, rgba(9,99,121,1) 0%, rgba(96,75,173,1) 0%, rgba(86,9,121,0.47335430754332986) 38%, rgba(69,48,147,0.5461834391959909) 75%, rgba(36,125,198,1) 86%, rgba(3,202,249,1) 97%, rgba(0,212,255,0.7478641114648985) 100%);
+  }

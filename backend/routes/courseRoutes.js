@@ -10,7 +10,7 @@ router.post('/update-course/:courseId', restrictTo(["admin", "teacher"]), Course
 
 router.get('/get-all-courses', restrictTo(["all"]) , CourseController.getAllCourses);
 
-router.get('/get-my-courses/:userId', restrictTo(["admin", "teacher"]) ,CourseController.getMyCourses);
+router.get('/get-my-courses/', restrictTo(["admin", "teacher"]) ,CourseController.getMyCourses);
 
 router.get('/get-course/:courseId',restrictTo(["all"]), CourseController.getCourseById);
 

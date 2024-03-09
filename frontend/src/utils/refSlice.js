@@ -9,9 +9,12 @@ const refSlice = createSlice({
         addReference : (state, action)=>{
                 state.numberOfRef = state.numberOfRef + 1;
         },
+        removeReference :(state, action)=>{
+              state.numberOfRef = state.numberOfRef - 1;
+        }
     }
 })
 
-const {addReference} = refSlice.actions;
-export {addReference}
+const {addReference, removeReference} = refSlice.actions;
+export {addReference, removeReference}
 export default refSlice.reducer;

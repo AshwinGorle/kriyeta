@@ -5,6 +5,7 @@ import connectDB from './config/connect.js'
 import userRoutes from './routes/userRoutes.js'
 import courseRoutes from "./routes/courseRoutes.js"
 import classRoutes from './routes/classRoutes.js'
+import courseEditorRoutes from './routes/couresEditorRoutes.js'
 import bodyParser from 'body-parser';
 import { checkForUserAuthentication } from './middlewares/checkUserAuth.js';
 
@@ -27,6 +28,7 @@ app.use(checkForUserAuthentication);
 
 app.use('/user',userRoutes);
 app.use("/course", courseRoutes);
+app.use("/course/edit", courseEditorRoutes);
 app.use("/class", classRoutes);
 
  app.get('/', (req, res)=>{

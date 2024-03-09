@@ -11,7 +11,9 @@ const MyCoursePage = () => {
     const fetchCourses = async () => {
       try {
         const response = await fetch(
-          `${BASE_URL}course/get-my-courses/${user?._id}`
+          `${BASE_URL}course/get-my-courses`, {
+            headers : {'authorization' : `Bearer ${localStorage.getItem('token')}`}
+          }
         );
         // const response = await fetch(`${BASE_URL}course/get-all-courses`);
         const data = await response.json();

@@ -17,6 +17,7 @@ class CourseController {
         thumbnailUrl,
         domain,
         authors,
+        content : []
       });
 
       return res.send({ status: "success", data: course });
@@ -61,7 +62,7 @@ class CourseController {
 
   static getMyCourses = async (req, res) => {
     try {
-      const { userId } = req.params;
+      const userId  = req.user._id;
       console.log("userid", userId);
       const courses = await CourseModel.find({ authors: { $in: [userId] } });
       res.send({ status: "success", data: courses });
@@ -74,10 +75,12 @@ class CourseController {
   };
 
   static getCourseById = async (req, res) => {
+    //work to do 
+    // implement logic so that only the authors and admin can edit the course
     const { courseId } = req.params;
     console.log("request for course with ", courseId);
     try {
-      const response = await CourseModel.findById(courseId);
+      const response = await CourseModel.findById(courseId).populate('content');
       res.send({
         status: "success",
         message: "Start Editing Course!",
